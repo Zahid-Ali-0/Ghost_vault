@@ -1,0 +1,43 @@
+name: Ghost_Vault
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  file_picker: ^10.3.10
+  qr_flutter: ^4.1.0
+  image_gallery_saver_plus: ^4.0.0
+  permission_handler: ^12.0.1
+  firebase_core: ^4.6.0
+  cloud_firestore: ^6.2.0
+  http: ^1.6.0
+  cached_network_image: ^3.3.1
+  video_player: ^2.8.2
+  url_launcher: ^6.2.5
+  path_provider: ^2.1.2
+  flutter_downloader: ^1.12.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/Assets/make_this_image_202603301350.png"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - lib/Assets/

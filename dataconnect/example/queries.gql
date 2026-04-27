@@ -1,0 +1,55 @@
+# Operation 1: List all movies available publicly
+query ListAllMovies @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  movies {
+    id
+    title
+    year
+    genres
+    summary
+    createdAt
+  }
+}
+
+# Operation 2: Register a new user
+mutation RegisterUser(
+  $displayName: String!,
+  $email: String!,
+  $photoUrl: String
+) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  user_insert(data: {
+    id_expr: "uuidV4()", # Auto-generate a UUID for the user ID
+    createdAt_expr: "request.time", # Set the creation timestamp
+    displayName: $displayName,
+    email: $email,
+    photoUrl: $photoUrl
+  })
+}
+
+# Operation 3: Get all lists created by the current authenticated user
+query GetUserLists @auth(level: USER) {
+  lists(where: {
+    userId_expr: "auth.uid" # Filter lists to only those owned by the current user
+  }) {
+    id
+    name
+    isPublic
+    description
+    createdAt
+    updatedAt
+  }
+}
+
+# Operation 4: Add a movie to a specific list owned by the current authenticated user
+mutation AddMovieToList(
+  $listId: UUID!,
+  $movieId: UUID!,
+  $position: Int!,
+  $note: String
+) @auth(expr: "auth.uid != null && exists(query.lists(where: {id: $listId, userId_expr: 'auth.uid'}))") {
+  listMovie_insert(data: {
+    list: { id: $listId }, # Reference the list by its ID
+    movie: { id: $movieId }, # Reference the movie by its ID
+    position: $position,
+    note: $note
+  })
+}
